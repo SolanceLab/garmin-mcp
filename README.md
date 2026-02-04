@@ -4,12 +4,13 @@ Custom MCP server that connects your Garmin Connect account to Claude Code and C
 
 Built for a Garmin Descent G1 but works with any Garmin device that supports health monitoring.
 
-## Tools (13)
+## Tools (14)
 
 ### Read
 - **get_daily_summary** — Combined daily health overview
 - **get_body_battery** — Energy level, charged/drained values
-- **get_sleep_data** — Sleep score, bedtime, wake time, stages
+- **get_sleep_data** — Sleep summary: score, bedtime, wake time, stage durations (~4KB)
+- **get_sleep_detail** — Granular sleep data: movement, HR, SpO2, stress, HRV timelines (~200KB)
 - **get_heart_rate** — Daily HR: current, min, max, average
 - **get_resting_heart_rate** — Baseline HR trend
 - **get_stress** — Stress levels and zone breakdown
