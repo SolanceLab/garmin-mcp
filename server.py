@@ -144,8 +144,8 @@ def get_body_battery(date: str | None = None) -> dict:
 @mcp.tool()
 def get_sleep_data(date: str | None = None) -> dict:
     """
-    Get sleep data — score, total duration, bedtime, wake time, sleep stages.
-    Returns the previous night's sleep for the given date.
+    Get sleep summary — score, duration, bedtime, wake time, stage durations.
+    Fast and lightweight. Use get_sleep_detail for granular data.
 
     Args:
         date: Date in YYYY-MM-DD format. Defaults to today.
@@ -154,7 +154,73 @@ def get_sleep_data(date: str | None = None) -> dict:
     try:
         garmin = get_client()
         sleep = garmin.get_sleep_data(cdate)
-        return {"success": True, "date": cdate, "data": sleep}
+
+        dto = sleep.get("dailySleepDTO", {})
+        scores = dto.get("sleepScores", {})
+        levels = sleep.get("sleepLevels", [])
+
+        summary = {
+            "calendarDate": dto.get("calendarDate"),
+            "sleepScore": scores.get("overall", {}).get("value"),
+            "sleepQuality": scores.get("overall", {}).get("qualifierKey"),
+            "sleepStartLocal": dto.get("sleepStartTimestampLocal"),
+            "sleepEndLocal": dto.get("sleepEndTimestampLocal"),
+            "sleepDurationSecs": dto.get("sleepTimeSeconds"),
+            "deepSleepSecs": dto.get("deepSleepSeconds"),
+            "lightSleepSecs": dto.get("lightSleepSeconds"),
+            "remSleepSecs": dto.get("remSleepSeconds"),
+            "awakeSleepSecs": dto.get("awakeSleepSeconds"),
+            "averageSpO2": dto.get("averageSpO2Value"),
+            "lowestSpO2": dto.get("lowestSpO2Value"),
+            "averageRespiration": dto.get("averageRespirationValue"),
+            "restingHeartRate": sleep.get("restingHeartRate"),
+            "avgOvernightHrv": sleep.get("avgOvernightHrv"),
+            "hrvStatus": sleep.get("hrvStatus"),
+            "bodyBatteryChange": sleep.get("bodyBatteryChange"),
+            "restlessMomentsCount": sleep.get("restlessMomentsCount"),
+            "sleepLevels": levels,
+        }
+
+        return {"success": True, "date": cdate, "data": summary}
+    except ConnectionError as e:
+        return {"success": False, "error": str(e)}
+    except (
+        GarminConnectAuthenticationError,
+        GarminConnectConnectionError,
+        GarminConnectTooManyRequestsError,
+    ) as e:
+        return {"success": False, "error": f"Garmin API error: {e}"}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+@mcp.tool()
+def get_sleep_detail(date: str | None = None) -> dict:
+    """
+    Get granular sleep data — movement, SpO2 timeline, HR during sleep,
+    stress, body battery, respiration, and HRV readings throughout the night.
+    WARNING: Large response (~200KB). Only use when detailed analysis is needed.
+
+    Args:
+        date: Date in YYYY-MM-DD format. Defaults to today.
+    """
+    cdate = resolve_date(date)
+    try:
+        garmin = get_client()
+        sleep = garmin.get_sleep_data(cdate)
+
+        detail = {
+            "sleepMovement": sleep.get("sleepMovement"),
+            "sleepHeartRate": sleep.get("sleepHeartRate"),
+            "sleepStress": sleep.get("sleepStress"),
+            "sleepBodyBattery": sleep.get("sleepBodyBattery"),
+            "hrvData": sleep.get("hrvData"),
+            "spO2Data": sleep.get("wellnessEpochSPO2DataDTOList"),
+            "respirationData": sleep.get("wellnessEpochRespirationDataDTOList"),
+            "restlessMoments": sleep.get("sleepRestlessMoments"),
+        }
+
+        return {"success": True, "date": cdate, "data": detail}
     except ConnectionError as e:
         return {"success": False, "error": str(e)}
     except (
