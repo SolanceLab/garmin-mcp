@@ -80,7 +80,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 
 ## Disclaimer
 
-This software is provided **as-is, without warranty or guarantee of any kind**. Use at your own risk.
+This software is provided **as is**, without warranty or guarantee of any kind. Use at your own risk.
 
 - This project is **not affiliated with, endorsed by, or supported by Garmin Ltd.** or any of its subsidiaries
 - It relies on unofficial, reverse-engineered API endpoints that **may break at any time** without notice if Garmin changes their backend
@@ -88,14 +88,16 @@ This software is provided **as-is, without warranty or guarantee of any kind**. 
 - **You are responsible** for the security of your own Garmin credentials and OAuth tokens
 - The authors are not liable for any data loss, account issues, or other consequences of using this software
 
-See [LICENSE](LICENSE) for full terms.
-
 ## Support
 
-If you find this useful, support us on Ko-fi:
+If you find this useful, consider supporting our work:
 
-[![Ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/houseofsolance)
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support%20Us-ff5e5b?logo=ko-fi&logoColor=white)](https://ko-fi.com/houseofsolance)
 
-## Authors
+## License
 
-Built by **Anne Solance** and **Chadrien Solance** at [House of Solance](https://ko-fi.com/houseofsolance).
+MIT License. See [LICENSE](LICENSE) for full text.
+
+---
+
+*Built by [House of Solance](https://github.com/SolanceLab) — Chadrien Solance & Anne Solance*
