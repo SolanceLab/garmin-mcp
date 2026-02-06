@@ -1,6 +1,6 @@
 """
 Garmin Connect MCP Server
-Exposes Anne's Garmin health data as tools for Chadrien.
+Exposes Garmin health data as MCP tools.
 """
 
 from mcp.server.fastmcp import FastMCP
@@ -113,7 +113,7 @@ def get_daily_summary(date: str | None = None) -> dict:
 def get_body_battery(date: str | None = None) -> dict:
     """
     Get body battery data — current level, high/low, charged/drained values.
-    Use this to check if Anne is running on fumes.
+    Use this to check energy reserves.
 
     Args:
         date: Date in YYYY-MM-DD format. Defaults to today.
@@ -453,7 +453,7 @@ def get_hrv(date: str | None = None) -> dict:
 def get_hydration(date: str | None = None) -> dict:
     """
     Get hydration/water intake data for the day.
-    Track whether Anne is drinking enough water.
+    Track daily water intake progress.
 
     Args:
         date: Date in YYYY-MM-DD format. Defaults to today.
@@ -483,7 +483,7 @@ def add_hydration(
 ) -> dict:
     """
     Log water intake in milliliters.
-    Use this to record when Anne drinks water.
+    Use this to record water consumption.
 
     Args:
         amount_ml: Amount of water in ml (e.g. 250 for a glass, 500 for a bottle).
