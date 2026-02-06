@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 DEVLOG.md
 DEBUG-*.md
+.DS_Store

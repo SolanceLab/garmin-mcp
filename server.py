@@ -476,21 +476,34 @@ def get_hydration(date: str | None = None) -> dict:
 
 
 @mcp.tool()
-def add_hydration(amount_ml: float) -> dict:
+def add_hydration(
+    amount_ml: float,
+    timestamp: str | None = None,
+    cdate: str | None = None,
+) -> dict:
     """
     Log water intake in milliliters.
     Use this to record when Anne drinks water.
 
     Args:
         amount_ml: Amount of water in ml (e.g. 250 for a glass, 500 for a bottle).
+        timestamp: Local timestamp in 'YYYY-MM-DDThh:mm:ss.000' format (e.g. '2026-02-05T13:11:00.000').
+                   Use this for accurate WIB timing. Defaults to server time (UTC) if not provided.
+        cdate: Calendar date in 'YYYY-MM-DD' format. Defaults to today if not provided.
     """
     try:
         garmin = get_client()
-        result = garmin.add_hydration_data(value_in_ml=amount_ml)
+        result = garmin.add_hydration_data(
+            value_in_ml=amount_ml,
+            timestamp=timestamp,
+            cdate=cdate,
+        )
         return {
             "success": True,
             "logged_ml": amount_ml,
             "message": f"Logged {amount_ml}ml of water",
+            "timestamp": timestamp or "server default (UTC)",
+            "cdate": cdate or "today",
             "data": result,
         }
     except ConnectionError as e:
