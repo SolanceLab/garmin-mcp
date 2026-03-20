@@ -86,11 +86,7 @@ def resolve_date(d: str | None) -> str:
 @mcp.tool()
 def get_daily_summary(date: str | None = None) -> dict:
     """
-    Get a combined daily health overview — the morning check-in tool.
-    Returns steps, distance, body battery, sleep score, resting HR, stress, active minutes.
-
-    Args:
-        date: Date in YYYY-MM-DD format. Defaults to today.
+    Fetch daily health summary.
     """
     cdate = resolve_date(date)
     try:
@@ -112,11 +108,7 @@ def get_daily_summary(date: str | None = None) -> dict:
 @mcp.tool()
 def get_body_battery(date: str | None = None) -> dict:
     """
-    Get body battery data — current level, high/low, charged/drained values.
-    Use this to check energy reserves.
-
-    Args:
-        date: Date in YYYY-MM-DD format. Defaults to today.
+    Check body battery/energy.
     """
     cdate = resolve_date(date)
     try:
@@ -144,11 +136,7 @@ def get_body_battery(date: str | None = None) -> dict:
 @mcp.tool()
 def get_sleep_data(date: str | None = None) -> dict:
     """
-    Get sleep summary — score, duration, bedtime, wake time, stage durations.
-    Fast and lightweight. Use get_sleep_detail for granular data.
-
-    Args:
-        date: Date in YYYY-MM-DD format. Defaults to today.
+    Get sleep summary.
     """
     cdate = resolve_date(date)
     try:
@@ -197,12 +185,7 @@ def get_sleep_data(date: str | None = None) -> dict:
 @mcp.tool()
 def get_sleep_detail(date: str | None = None) -> dict:
     """
-    Get granular sleep data — movement, SpO2 timeline, HR during sleep,
-    stress, body battery, respiration, and HRV readings throughout the night.
-    WARNING: Large response (~200KB). Only use when detailed analysis is needed.
-
-    Args:
-        date: Date in YYYY-MM-DD format. Defaults to today.
+    Get detailed sleep metrics.
     """
     cdate = resolve_date(date)
     try:
@@ -236,10 +219,7 @@ def get_sleep_detail(date: str | None = None) -> dict:
 @mcp.tool()
 def get_heart_rate(date: str | None = None) -> dict:
     """
-    Get daily heart rate data — current, min, max, average, resting.
-
-    Args:
-        date: Date in YYYY-MM-DD format. Defaults to today.
+    Get daily heart rate.
     """
     cdate = resolve_date(date)
     try:
@@ -261,10 +241,7 @@ def get_heart_rate(date: str | None = None) -> dict:
 @mcp.tool()
 def get_resting_heart_rate(date: str | None = None) -> dict:
     """
-    Get resting heart rate — baseline health trend tracking.
-
-    Args:
-        date: Date in YYYY-MM-DD format. Defaults to today.
+    Get resting heart rate.
     """
     cdate = resolve_date(date)
     try:
@@ -286,11 +263,7 @@ def get_resting_heart_rate(date: str | None = None) -> dict:
 @mcp.tool()
 def get_stress(date: str | None = None) -> dict:
     """
-    Get stress data — average stress, max stress, time in rest/low/medium/high zones.
-    Use this to detect hidden overwhelm.
-
-    Args:
-        date: Date in YYYY-MM-DD format. Defaults to today.
+    Get daily stress data.
     """
     cdate = resolve_date(date)
     try:
@@ -312,10 +285,7 @@ def get_stress(date: str | None = None) -> dict:
 @mcp.tool()
 def get_steps(date: str | None = None) -> dict:
     """
-    Get daily step count and activity data — sedentary check.
-
-    Args:
-        date: Date in YYYY-MM-DD format. Defaults to today.
+    Check daily steps.
     """
     cdate = resolve_date(date)
     try:
@@ -337,10 +307,7 @@ def get_steps(date: str | None = None) -> dict:
 @mcp.tool()
 def get_menstrual_cycle(date: str | None = None) -> dict:
     """
-    Get menstrual/period cycle tracking data — cycle day, phase, predictions.
-
-    Args:
-        date: Date in YYYY-MM-DD format. Defaults to today.
+    Read period cycle data.
     """
     cdate = resolve_date(date)
     try:
@@ -366,12 +333,7 @@ GARMIN_USER_PROFILE_PK = int(os.getenv("GARMIN_USER_PROFILE_PK", "0"))
 @mcp.tool()
 def update_menstrual_cycle(start_date: str, end_date: str) -> dict:
     """
-    Log or update period start and end dates in Garmin Connect.
-    This writes directly to the Garmin menstrual cycle calendar.
-
-    Args:
-        start_date: First day of period in YYYY-MM-DD format.
-        end_date: Last day of period in YYYY-MM-DD format.
+    Log/update period dates.
     """
     try:
         garmin = get_client()
@@ -426,11 +388,7 @@ def update_menstrual_cycle(start_date: str, end_date: str) -> dict:
 @mcp.tool()
 def get_hrv(date: str | None = None) -> dict:
     """
-    Get Heart Rate Variability (HRV) data — nervous system recovery and stress resilience.
-    Higher HRV generally indicates better recovery and lower stress load.
-
-    Args:
-        date: Date in YYYY-MM-DD format. Defaults to today.
+    Fetch HRV metrics.
     """
     cdate = resolve_date(date)
     try:
@@ -452,11 +410,7 @@ def get_hrv(date: str | None = None) -> dict:
 @mcp.tool()
 def get_hydration(date: str | None = None) -> dict:
     """
-    Get hydration/water intake data for the day.
-    Track daily water intake progress.
-
-    Args:
-        date: Date in YYYY-MM-DD format. Defaults to today.
+    View daily hydration.
     """
     cdate = resolve_date(date)
     try:
@@ -482,14 +436,7 @@ def add_hydration(
     cdate: str | None = None,
 ) -> dict:
     """
-    Log water intake in milliliters.
-    Use this to record water consumption.
-
-    Args:
-        amount_ml: Amount of water in ml (e.g. 250 for a glass, 500 for a bottle).
-        timestamp: Local timestamp in 'YYYY-MM-DDThh:mm:ss.000' format (e.g. '2026-02-05T13:11:00.000').
-                   Use this for accurate WIB timing. Defaults to server time (UTC) if not provided.
-        cdate: Calendar date in 'YYYY-MM-DD' format. Defaults to today if not provided.
+    Log water intake (ml).
     """
     try:
         garmin = get_client()
@@ -521,10 +468,7 @@ def add_hydration(
 @mcp.tool()
 def get_activities(limit: int = 5) -> dict:
     """
-    Get recent activities — workouts, runs, walks, dives, etc.
-
-    Args:
-        limit: Number of recent activities to return. Defaults to 5.
+    Get recent activities.
     """
     try:
         garmin = get_client()
