@@ -36,8 +36,8 @@ def init_client() -> Garmin | None:
     if os.path.exists(TOKENSTORE):
         try:
             c = Garmin()
-            c.login(tokenstore=TOKENSTORE)
-            c.garth.dump(TOKENSTORE)  # refresh saved tokens
+            c.login(TOKENSTORE)
+            c.client.dump(TOKENSTORE)  # refresh saved tokens
             client = c
             logger.info("Authenticated via saved tokens")
             return client
@@ -52,7 +52,7 @@ def init_client() -> Garmin | None:
         try:
             c = Garmin(email=email, password=password)
             c.login()
-            c.garth.dump(TOKENSTORE)
+            c.client.dump(TOKENSTORE)
             client = c
             logger.info("Authenticated via email/password")
             return client

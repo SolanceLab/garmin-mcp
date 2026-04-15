@@ -32,7 +32,7 @@ def authenticate():
             prompt_mfa=lambda: input("Enter MFA code: "),
         )
         client.login()
-        client.garth.dump(TOKENSTORE)
+        client.client.dump(TOKENSTORE)
 
         print(f"\nAuthentication successful!")
         print(f"Display name: {client.display_name}")
